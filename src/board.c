@@ -1,5 +1,20 @@
 #include "board.h"
 
+
+/************************************
+*	STATIC FUNCTIONS DECLARATIONS	*
+*************************************/
+
+/**
+ * Grid constructor
+ * @return (t_box **) Full size grid for the game, with boxes pointing to NULL
+ */
+static t_box** gridConstruct();
+
+/********************************
+*	FUNCTION IMPLEMENTATIONS	*
+********************************/
+
 /************************
  * 	Global functions	*
  ************************/
@@ -45,7 +60,22 @@ t_board boardConstruct()
 /** Board destructor **/
 void boardDestroy(t_board* board)
 {
-	/// @TODO Destroy properly the board instance
+	int x,y;
+
+	if(hasWaterNetwork(board))
+	{
+		free(board->water_network);
+	}	
+}
+
+int hasWaterNetwork(t_board* board)
+{
+	return getwaterCastleNb(board) ? 1 : 0;
+}
+
+int hasElecNetwork(t_board* board)
+{
+	return getpowerPlantNb(board) ? 1 : 0;
 }
 
 /************************
