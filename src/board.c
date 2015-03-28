@@ -7,17 +7,24 @@
 
 /**
  * Grid constructor
- * @return (t_box **) Full size grid for the game, with boxes pointing to NULL
+ * @return (t_box ***) Full size grid for the game, with boxes pointing to NULL
  */
-static t_box** gridConstruct();
+static t_box*** gridConstruct();
+/**
+ *	Grid destructor
+ *	@param (t_box***) grid to destroy
+ */
+static void gridDestroy(t_box*** grid);
 
 /********************************
 *	FUNCTION IMPLEMENTATIONS	*
 ********************************/
 
 /************************
- * 	Global functions	*
- ************************/
+* 	Global functions	*
+*************************/
+
+/** BOARD CONSTRUCTOR/DESTRUCTOR **/
 
 /** Board constructor **/
 t_board boardConstruct()
@@ -62,39 +69,96 @@ void boardDestroy(t_board* board)
 {
 	int x,y;
 
-	if(hasWaterNetwork(board))
+	if (hasWaterNetwork(board))
 	{
 		free(board->water_network);
-	}	
+		board->water_network = NULL;
+	}
+	if (hasElecNetwork(board))
+	{
+		free(board->elec_network);
+		board->elec_network = NULL;
+	}
+	gridDestroy(board->grid);
+	board->grid = NULL;
+
+	graphDestroy(board->graph);
+	board->graph = NULL;
+
+	free(board);	
+}
+
+/** BOARD GETTERS **/
+
+/** Getter for board's nb_wcastles field **/
+int getWaterCastleNb(t_board* board)
+{
+	return board->nb_wcastles;
+}
+/** Getter for board's nb_pplants field **/
+int getPowerPlantNb(t_board* board)
+{
+	return board->nb_pplants;
 }
 
 int hasWaterNetwork(t_board* board)
 {
-	return getwaterCastleNb(board) ? 1 : 0;
+	return getWaterCastleNb(board) ? 1 : 0;
 }
-
 int hasElecNetwork(t_board* board)
 {
-	return getpowerPlantNb(board) ? 1 : 0;
+	return getPowerPlantNb(board) ? 1 : 0;
 }
+
+/** BOARD SETTERS **/
 
 /************************
 *	Static functions	*
 ************************/
 
-static t_box** gridConstruct()
+/** Grid constructor **/
+static t_box*** gridConstruct()
 {
-	t_box** grid = NULL;
-	(t_box**) malloc(BOARD_HEIGHT * sizeof(t_box*));
-	if (grid == NULL)
+	int x,y;
+	t_box*** grid = NULL;
+
+	// Allocating lines...
+	(t_box***) malloc(BOARD_HEIGHT * sizeof(t_box**));
+
+	// ...and then columns
+	for (y = 0; y < BOARD_HEIGHT; y++)
 	{
-		return NULL;
+		grid[y] = (t_box**) malloc(BOARD_WIDTH * sizeof(t_box*));
 	}
+
+	// If grid != NULL we can proceed with initialization
+	if (grid)
+	{
+		for (y = 0; y < BOARD_HEIGHT; y++)
+		{
+			for (int x = 0; x < BOARD_WIDTH; x++)
+			{
+				grid[y][x] = (t_box*) boxConstruct();
+			}
+		}
+	}
+	
+	// Wether it is NULL or successfully allocated (and initialized), we return the grid
+	return grid;
+}
+
+/** Grid destructor */
+static void gridDestroy(t_box*** grid)
+{
+	int x,y;
 
 	for (y = 0; y < BOARD_HEIGHT; y++)
 	{
-		grid[y] = (t_box*) boxConstruct();
+		for (int x = 0; x < BOARD_WIDTH; x++)
+		{
+			boxDestroy(grid[y][x]);
+		}
+		free(grid[y]);
 	}
-
-	return grid;
+	free(grid);
 }
