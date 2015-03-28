@@ -27,3 +27,8 @@
 *.i*86
 *.x86_64
 *.hex
+
+# Project files
+*.cbp
+*.sublime-project
+*.sublime-workspace
