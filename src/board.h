@@ -48,6 +48,8 @@ typedef struct board
  * 	Global functions	*
  ************************/
 
+/** BOARD CONSTRUCTOR/DESTRUCTOR **/
+
 /**
  * Board constructor
  * @return (t_board *) allocated board instance
@@ -59,6 +61,8 @@ t_board* boardConstruct();
  * @param (t_board *) board instance to be destroyed
  */
 void boardDestroy(t_board* board);
+
+/** BOARD GETTERS **/
 
 /**
  * Retrieves the number of water castles on the game board
