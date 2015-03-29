@@ -45,7 +45,7 @@ t_box* boxConstruct();
  */
 void boxDestroy(t_box* box, void (*ptrObjectDestroy) (void* object));
 
-/** BOARD GETTERS **/
+/** BOX GETTERS **/
 
 /**
  * Retrieves the enum value of the object pointed by the box
