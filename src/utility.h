@@ -2,6 +2,16 @@
 #define ECE_CITY_UTILITY_H
 
 /************************
+*	UTILITY LIBRARIES	*
+************************/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "2Dpoint.h"
+
+
+/************************
 *	UTILITY CONSTANTS	*
 ************************/
 
