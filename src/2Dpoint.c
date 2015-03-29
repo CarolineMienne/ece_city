@@ -9,9 +9,7 @@
     Copyright© Robin Fercoq
  
 ************************************/
- 
-#include <stdio.h>
-#include <stdlib.h>
+
 #include <math.h>
  
 #include "2Dpoint.h"
@@ -59,9 +57,9 @@ t_2Dcoord * point_copier(t_2Dcoord *p)
 void point_saisir(t_2Dcoord *p)
 {
     printf("Abscisse : ");
-    scanf("%f", &p->x);
+    scanf("%d", &p->x);
     printf("Ordonnee : ");
-    scanf("%f", &p->y);
+    scanf("%d", &p->y);
 }
  
 /// Modification de point
@@ -74,7 +72,7 @@ void point_modifier(t_2Dcoord *p, int x, int y)
 /// Affichage de point
 void point_afficher(t_2Dcoord *p)
 {
-    printf("(%f, %f)\n", p->x, p->y);
+    printf("(%d, %d)\n", p->x, p->y);
 }
  
 /// Translation selon le vecteur vx vy
@@ -84,10 +82,10 @@ void point_translater(t_2Dcoord *p, int vx, int vy)
     p->x = p->x + vx;
     p->y = p->y + vy;
 }
- 
+
 /// Distance entre 2 points
 /// ( exemple de fonction qui utilise 2 instances )
-int point_distance(t_2Dcoord *p1, t_2Dcoord *p2)
+double point_distance(t_2Dcoord *p1, t_2Dcoord *p2)
 {
     // Coord. du vecteur p1 p2
     int vx, vy;
@@ -97,5 +95,5 @@ int point_distance(t_2Dcoord *p1, t_2Dcoord *p2)
     vy = p2->y - p1->y;
  
     // Retourner la norme du vecteur
-    return sqrt( vx*vx + vy*vy );
+    return 1.0;//sqrt( vx*vx + vy*vy );
 }

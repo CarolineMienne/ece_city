@@ -18,7 +18,7 @@ typedef struct gridbox
 	// Enum that can take different values accoridng to the type of 
 	// object, e.g. WCASTLE for a water castle (see more in utility.h)
 	e_object_type object_type;
-};
+}t_box;
 
 /****************************
 *	CONSTANT DECLARATIONS	*

@@ -8,10 +8,16 @@
 #include <errno.h>
 
 #include "utility.h"
+#include "graph.h"
+#include "publicbuildings.h"
+#include "gridbox.h"
 
 /****************************
-*	STRUCTURE DECLARATION	*
+*	  TYPES DECLARATION	 	*
 ****************************/
+
+typedef t_box** t_grid;
+
 typedef struct board
 {
 	int nb_inhabs; 	// Number of inhabitants in the city

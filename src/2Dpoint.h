@@ -11,9 +11,11 @@
 #ifndef POINT_H_INCLUDED
 #define POINT_H_INCLUDED
  
+#include "utility.h"
+
 /// Structure principale du module
  
-typedef struct 2Dcoordinates {
+typedef struct coordinates2D {
     int x;
     int y;
 } t_2Dcoord;
@@ -45,6 +47,6 @@ void point_translater(t_2Dcoord *coord, int vx, int vy);
  
 // Distance entre 2 points
 // ( exemple de fonction qui utilise 2 instances )
-int point_distance(t_2Dcoord *coord1, t_2Dcoord *coord2);
+double point_distance(t_2Dcoord *coord1, t_2Dcoord *coord2);
  
 #endif // POINT_H_INCLUDED
