@@ -11,4 +11,17 @@
 #define BOARD_WIDTH		45
 #define BOARD_HEIGHT 	35
 
+/************************
+*	ENUMS AND STRUCTS	*
+************************/
+
+typedef enum object_type_enum
+{
+	NOTHING,
+	WCASTLE,
+	PPLANT,
+	ROAD,
+	HABITATION
+}e_object_type;
+
 #endif
