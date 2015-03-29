@@ -9,6 +9,7 @@
 #include <stdlib.h>
 
 #include "utility.h"
+#include "2Dpoint.h"
 
 /****************************
 *	STRUCTURE DECLARATION	*
@@ -18,7 +19,7 @@ typedef struct graph
 {
 	char** adjacency_matrix;
 	int nb_edges;
-	t_coord** edges_coord;
+	t_2Dcoord** edges_coord;
 }t_graph;
 
 /****************************
