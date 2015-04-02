@@ -90,7 +90,20 @@ int hasWaterNetwork(t_board* board);
  */
 int hasElecNetwork(t_board* board);
 
+/** BOARD SETTERS **/
 
+/** BOARD UI ROUTINES **/
+
+/**
+ * Prints the board data in the specified file
+ * @param (t_board*) board Board to be printed
+ */
+void boardPrintToFile(t_board* board);
+/**
+ * Prints the board data in the stdout file
+ * @param (t_board*) board Board to be printed
+ */
+void boardPrintToConsole(t_board* board);
 
 #endif
 

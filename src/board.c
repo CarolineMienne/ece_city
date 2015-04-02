@@ -16,6 +16,13 @@ static t_box*** gridConstruct();
  */
 static void gridDestroy(t_box*** grid);
 
+/**
+ * Prints the grid to the specified file
+ * @param (t_box***) grid
+ * @param (FILE*) f File to write in. Must have been already opened before!
+ */
+static void gridPrintToFile(t_box*** grid, FILE* f)
+
 /********************************
 *	FUNCTION IMPLEMENTATIONS	*
 ********************************/
@@ -112,6 +119,23 @@ int hasElecNetwork(t_board* board)
 
 /** BOARD SETTERS **/
 
+/** BOARD UI ROUTINES **/
+/** Prints the board data in the specified (opened) file */
+void boardPrintToFile(t_board* board)
+{
+	fprintf(f, "%d\n", board->nb_inhabs);
+	fprintf(f, "%d\n", board->nb_pplants);
+	fprintf(f, "%d\n", board->nb_wcastles);
+	fprintf(f, "%d\n", board->flouz);
+	fprintf(f, "%d\n", board->months);
+	gridPrintToFile(board->grid,f);
+}
+/** Prints the board data in the stdout file */
+void boardPrintToConsole(t_board* board)
+{
+	boardPrintToFile(board,stdout);
+}
+
 /************************
 *	Static functions	*
 ************************/
@@ -161,4 +185,28 @@ static void gridDestroy(t_box*** grid)
 		free(grid[y]);
 	}
 	free(grid);
+}
+
+static void gridPrintToFile(t_box*** grid, FILE* f)
+{
+	int x,y;
+
+	for (int y = 0; y < BOARD_HEIGHT; y++)
+	{
+		fprintf(f, "|");
+		for (int x = 0; x < BOARD_WIDTH; x++)
+		{
+			fprintf(f,"[");
+			if (!grid[y][x])
+			{
+				fprintf(f,"0");
+			}
+			else if (grid[y][x]->box)
+			{
+				/* code */
+			}
+			fprintf(f,"]");
+		}
+		fprintf(f,"|\n");
+	}
 }
