@@ -7,6 +7,8 @@ int main(int argc, char const *argv[])
 
 	board = boardConstruct();
 	printf("First build test\n");
+	boardPrintToConsole(board);
+
 	boardDestroy(board);
 	printf("Board successfully destroyed !\n");
 	return 0;

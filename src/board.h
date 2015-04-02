@@ -5,19 +5,18 @@
 *	LIBRARY INCLUSIONS	*
 ************************/
 
+#include <stdlib.h>
+#include <stdio.h>
 #include <errno.h>
 
-#include "utility.h"
 #include "graph.h"
 #include "publicbuildings.h"
 #include "gridbox.h"
+#include "utility.h"
 
 /****************************
-*	  TYPES DECLARATION	 	*
+*	STRUCTURE DECLARATION	*
 ****************************/
-
-typedef t_box** t_grid;
-
 typedef struct board
 {
 	int nb_inhabs; 	// Number of inhabitants in the city
@@ -102,7 +101,7 @@ int hasElecNetwork(t_board* board);
  * Prints the board data in the specified file
  * @param (t_board*) board Board to be printed
  */
-void boardPrintToFile(t_board* board);
+void boardPrintToFile(t_board* board, FILE* f);
 /**
  * Prints the board data in the stdout file
  * @param (t_board*) board Board to be printed

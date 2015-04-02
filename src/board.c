@@ -21,7 +21,7 @@ static void gridDestroy(t_box*** grid);
  * @param (t_box***) grid
  * @param (FILE*) f File to write in. Must have been already opened before!
  */
-static void gridPrintToFile(t_box*** grid, FILE* f)
+static void gridPrintToFile(t_box*** grid, FILE* f);
 
 /********************************
 *	FUNCTION IMPLEMENTATIONS	*
@@ -54,7 +54,7 @@ t_board* boardConstruct()
 
 	/* Structure allocations */
 	board->graph = (t_graph*) graphConstruct();
-	board->grid  = (t_grid*) gridConstruct();
+	board->grid  = (t_box***) gridConstruct();
 	if (board->grid == NULL)
 	{
 		fprintf(stderr, "Error while allocating game grid !\nProgram must quit");
@@ -118,13 +118,13 @@ int hasElecNetwork(t_board* board)
 
 /** BOARD UI ROUTINES **/
 /** Prints the board data in the specified (opened) file */
-void boardPrintToFile(t_board* board)
+void boardPrintToFile(t_board* board, FILE* f)
 {
-	fprintf(f, "%d\n", board->nb_inhabs);
-	fprintf(f, "%d\n", board->nb_pplants);
-	fprintf(f, "%d\n", board->nb_wcastles);
-	fprintf(f, "%d\n", board->flouz);
-	fprintf(f, "%d\n", board->months);
+	fprintf(f, "Inhabs :\t%d\n", board->nb_inhabs);
+	fprintf(f, "Power plants :\t%d\n", board->nb_pplants);
+	fprintf(f, "Water castles :\t%d\n", board->nb_wcastles);
+	fprintf(f, "ECE-Flouz :\t%d\n", board->flouz);
+	fprintf(f, "Months (in game) :\t%d\n", board->months);
 	gridPrintToFile(board->grid,f);
 }
 /** Prints the board data in the stdout file */
@@ -188,19 +188,19 @@ static void gridPrintToFile(t_box*** grid, FILE* f)
 {
 	int x,y;
 
-	for (int y = 0; y < BOARD_HEIGHT; y++)
+	for (y = 0; y < BOARD_HEIGHT; y++)
 	{
 		fprintf(f, "|");
-		for (int x = 0; x < BOARD_WIDTH; x++)
+		for (x = 0; x < BOARD_WIDTH; x++)
 		{
 			fprintf(f,"[");
-			if (!grid[y][x])
+			if (grid[y][x]->object_type == NOTHING)
 			{
 				fprintf(f,"0");
 			}
-			else if (grid[y][x]->box)
+			else
 			{
-				/* code */
+				fprintf(f, "%d\n", grid[y][x]->object_type);
 			}
 			fprintf(f,"]");
 		}
