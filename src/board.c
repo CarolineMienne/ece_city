@@ -34,9 +34,8 @@ static void gridPrintToFile(t_box*** grid, FILE* f)
 /** BOARD CONSTRUCTOR/DESTRUCTOR **/
 
 /** Board constructor **/
-t_board boardConstruct()
+t_board* boardConstruct()
 {
-	int x,y;
 	t_board* board = NULL;
 
 	board = (t_board*) malloc(sizeof(t_board));
@@ -74,8 +73,6 @@ t_board boardConstruct()
 /** Board destructor **/
 void boardDestroy(t_board* board)
 {
-	int x,y;
-
 	if (hasWaterNetwork(board))
 	{
 		free(board->water_network);
@@ -147,7 +144,7 @@ static t_box*** gridConstruct()
 	t_box*** grid = NULL;
 
 	// Allocating lines...
-	(t_box***) malloc(BOARD_HEIGHT * sizeof(t_box**));
+	grid = (t_box***) malloc(BOARD_HEIGHT * sizeof(t_box**));
 
 	// ...and then columns
 	for (y = 0; y < BOARD_HEIGHT; y++)
@@ -160,7 +157,7 @@ static t_box*** gridConstruct()
 	{
 		for (y = 0; y < BOARD_HEIGHT; y++)
 		{
-			for (int x = 0; x < BOARD_WIDTH; x++)
+			for (x = 0; x < BOARD_WIDTH; x++)
 			{
 				grid[y][x] = (t_box*) boxConstruct();
 			}
@@ -178,9 +175,9 @@ static void gridDestroy(t_box*** grid)
 
 	for (y = 0; y < BOARD_HEIGHT; y++)
 	{
-		for (int x = 0; x < BOARD_WIDTH; x++)
+		for (x = 0; x < BOARD_WIDTH; x++)
 		{
-			boxDestroy(grid[y][x]);
+			boxDestroy(grid[y][x],NULL);
 		}
 		free(grid[y]);
 	}

@@ -1,8 +1,13 @@
-#include "stdio.h"
-#include "stdlib.h"
+#include "utility.h"
+#include "board.h"
 
-int int main(int argc, char const *argv[])
+int main(int argc, char const *argv[])
 {
-	/* code */
+	t_board* board;
+
+	board = boardConstruct();
+	printf("First build test\n");
+	boardDestroy(board);
+	printf("Board successfully destroyed !\n");
 	return 0;
 }
