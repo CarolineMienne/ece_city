@@ -35,3 +35,6 @@ ece_city_*
 *.cbp
 *.sublime-project
 *.sublime-workspace
+
+# Other compilation related files
+.debug_time

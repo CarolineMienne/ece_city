@@ -51,6 +51,7 @@ t_board* boardConstruct()
 	board->flouz 		= FLOUZ_AT_START;
 	board->nb_pplants 	= NB_PPLANTS_AT_START;
 	board->nb_wcastles 	= NB_WCASTLES_AT_START;
+	board->nb_habitations = NB_HABITATIONS_AT_START;
 
 	/* Structure allocations */
 	board->graph = (t_graph*) graphConstruct();
@@ -62,10 +63,11 @@ t_board* boardConstruct()
 	}
 
 	// Since there are no resource provider (water castles/power plants) 
-	// at the beginning we can't allocate anything.
+	// nor habitation buildings at the beginning, we can't allocate anything.
 	// Thus, we set these lists as pointing to NULL.
 	board->water_network = NULL;
 	board->elec_network	 = NULL;
+	board->habitation_network = NULL;
 
 	return board;
 }
@@ -73,19 +75,52 @@ t_board* boardConstruct()
 /** Board destructor **/
 void boardDestroy(t_board* board)
 {
+	int i;
+
+	// If there is any water castle instance we have to destroy it
 	if (hasWaterNetwork(board))
 	{
+		for (i = 0; i < getWaterCastleNb(board); i++)
+		{
+			if (board->water_network[i] != NULL)
+			{
+				PBDestroy(board->water_network[i]);
+			}
+		}
 		free(board->water_network);
 		board->water_network = NULL;
 	}
+	// If there is any power plant instance we have to destroy it
 	if (hasElecNetwork(board))
 	{
+		for (i = 0; i < getPowerPlantNb(board); i++)
+		{
+			if (board->elec_network[i] != NULL)
+			{
+				PBDestroy(board->elec_network[i]);
+			}
+		}
 		free(board->elec_network);
 		board->elec_network = NULL;
 	}
+	// If there is any habitation building instance we have to destroy it	
+	if (hasHabitationNetwork(board))
+	{
+		for (i = 0; i < getHabitationNb(board); i++)
+		{
+			if (board->habitation_network[i] != NULL)
+			{
+				habitationDestroy(board->habitation_network[i]);
+			}
+		}
+		free(board->habitation_network);
+		board->habitation_network = NULL;
+	}
+	// We destroy the grid
 	gridDestroy(board->grid);
 	board->grid = NULL;
 
+	// We destroy the graph
 	graphDestroy(board->graph);
 	board->graph = NULL;
 
@@ -104,14 +139,26 @@ int getPowerPlantNb(t_board* board)
 {
 	return board->nb_pplants;
 }
+/** Getter for board's nb_habitations field */
+int getHabitationNb(t_board* board)
+{
+	return board->nb_habitations;
+}
 
+/** Tells whether there is any water castle on the game board or not */
 int hasWaterNetwork(t_board* board)
 {
 	return getWaterCastleNb(board) ? 1 : 0;
 }
+/** Tells whether there is any power plant on the game board or not */
 int hasElecNetwork(t_board* board)
 {
 	return getPowerPlantNb(board) ? 1 : 0;
+}
+/** Tells whether there is any habitation building on the game board or not */
+int hasHabitationNetwork(t_board* board)
+{
+	return getHabitationNb(board) ? 1 : 0;
 }
 
 /** BOARD SETTERS **/
@@ -123,6 +170,7 @@ void boardPrintToFile(t_board* board, FILE* f)
 	fprintf(f, "Inhabs :\t%d\n", board->nb_inhabs);
 	fprintf(f, "Power plants :\t%d\n", board->nb_pplants);
 	fprintf(f, "Water castles :\t%d\n", board->nb_wcastles);
+        fprintf(f, "Habitations :\t%d\n", board->nb_habitations);
 	fprintf(f, "ECE-Flouz :\t%d\n", board->flouz);
 	fprintf(f, "Months (in game) :\t%d\n", board->months);
 	gridPrintToFile(board->grid,f);
