@@ -7,9 +7,9 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <errno.h>
 
 #include "graph.h"
+#include "habitation.h"
 #include "publicbuildings.h"
 #include "gridbox.h"
 #include "utility.h"
@@ -26,7 +26,9 @@ typedef struct board
 	/* Board related fields */
 	int nb_pplants;		// Number of power plants currently on game
 	int nb_wcastles;	// Number of water castles currently on the game
+	int nb_habitations;	// Number of dwellings (including everything from wasteland to skyscrapers) currently on the game
 	t_graph *graph;		// Structure containing all data related to the network graph
+	t_habit** habitation_network; // Lists all habitations
 	t_PB** water_network;	// Lists all water castles
 	t_PB** elec_network;	// Lists all power plants
 	t_box*** grid;	// Matrix that represents the gameboard. Each index points to a box structure
@@ -41,6 +43,7 @@ typedef struct board
 #define NB_INHABS_AT_GAME_START 0
 #define NB_PPLANTS_AT_START 	0
 #define NB_WCASTLES_AT_START 	0
+#define NB_HABITATIONS_AT_START 0
 
 
 /****************************
@@ -79,6 +82,12 @@ int getWaterCastleNb(t_board* board);
  * @return	(int) number of power plants
  */
 int getPowerPlantNb(t_board* board);
+/**
+ * Retrieves the number of habitation buildings on the game board
+ * @param  (t_board*) board
+ * @return (int) number of power plants
+ */
+int getHabitationNb(t_board* board);
 
 /**
  * Tells whether there is any water castle on the game board or not
@@ -92,6 +101,12 @@ int hasWaterNetwork(t_board* board);
  * @return	(int) boolean : '1' if there is at least one power plant
  */
 int hasElecNetwork(t_board* board);
+/**
+ * Tells whether there is any power plant on the game board or not
+ * @param  (t_board*) board
+ * @return (int) boolean : '1' if there is at least one habitation building
+ */
+int hasHabitationNetwork(t_board* board);
 
 /** BOARD SETTERS **/
 
