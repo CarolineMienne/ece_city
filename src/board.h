@@ -5,17 +5,17 @@
 *	LIBRARY INCLUSIONS	*
 ************************/
 
-#include "utility.h"
+#include <stdlib.h>
+#include <stdio.h>
+
 #include "graph.h"
 #include "publicbuildings.h"
 #include "gridbox.h"
+#include "utility.h"
 
 /****************************
-*	  TYPES DECLARATION	 	*
+*	STRUCTURE DECLARATION	*
 ****************************/
-
-typedef t_box** t_grid;
-
 typedef struct board
 {
 	int nb_inhabs; 	// Number of inhabitants in the city
@@ -27,7 +27,7 @@ typedef struct board
 	int nb_wcastles;	// Number of water castles currently on the game
 	int nb_habitations;	// Number of dwellings (including everything from wasteland to skyscrapers) currently on the game
 	t_graph *graph;		// Structure containing all data related to the network graph
-	t_habit** habitation_network // Lists all habitations
+	t_habit** habitation_network; // Lists all habitations
 	t_PB** water_network;	// Lists all water castles
 	t_PB** elec_network;	// Lists all power plants
 	t_box*** grid;	// Matrix that represents the gameboard. Each index points to a box structure
@@ -115,7 +115,7 @@ int hasHabitationNetwork(t_board* board);
  * Prints the board data in the specified file
  * @param (t_board*) board Board to be printed
  */
-void boardPrintToFile(t_board* board);
+void boardPrintToFile(t_board* board, FILE* f);
 /**
  * Prints the board data in the stdout file
  * @param (t_board*) board Board to be printed
