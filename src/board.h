@@ -9,6 +9,7 @@
 #include <stdio.h>
 
 #include "graph.h"
+#include "habitation.h"
 #include "publicbuildings.h"
 #include "gridbox.h"
 #include "vector.h"

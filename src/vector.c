@@ -4,7 +4,6 @@
 ****************************/
 
 #include "vector.h"
-#include "memoire.h"
 
 ///Constructor
 t_vector *vector_create(int max_ent_init)

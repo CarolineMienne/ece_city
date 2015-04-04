@@ -7,6 +7,7 @@
 #define VECTOR_H_INCLUDED
 
 #include <stdlib.h>
+#include <stdio.h>
 
 /** @brief 'Homemade' vector implementation for personal C projects
  * Resizable array
