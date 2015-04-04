@@ -124,7 +124,7 @@ void addPPlantToBoard(t_board* board, t_PB* pplant);
  */
 void addWCastleToBoard(t_board* board, t_PB* wcastle);
 /**
- * Adds the specified hanitation to the gameboard
+ * Adds the specified habitation to the gameboard
  * @param (t_board*) board 
  * @param (t_habit*) habitation Habitation instance to be added
  */

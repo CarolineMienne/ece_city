@@ -14,7 +14,7 @@ typedef struct publicbuildings
 {
 	char PB_type;
 	int remaining_res;
-	t_2Dcoord coord;
+	t_2Dcoord* coord; // Coordinates on the grid map (corrsponds to the top left corners)
 }t_PB;
 
 /****************************

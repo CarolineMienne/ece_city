@@ -24,7 +24,7 @@ typedef struct habitation
 	char water_amount;		// Total amount of water that is provided to the building
 	int** wcastles_numbers;	// Indicates which water castle(s) provide(s) water to the instance and how much
 
-	t_2Dcoord* coord;	// Coordinates on the grid map
+	t_2Dcoord* coord;	// Coordinates on the grid map (corrsponds to the top left corners)
 }t_habit;
 
 /****************************

@@ -21,6 +21,12 @@
 #define BOARD_WIDTH		45
 #define BOARD_HEIGHT 	35
 
+#define ROAD_ELEM_SIZE	1
+#define HABITATION_WIDTH	3
+#define HABITATION_HEIGHT	3
+#define PBUILDING_WIDTH		4
+#define PBUILDING_HEIGHT	6
+
 /************************
 *	ENUMS AND STRUCTS	*
 ************************/

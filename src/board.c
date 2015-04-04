@@ -145,23 +145,65 @@ int hasHabitationNetwork(t_board* board)
 }
 
 /** BOARD SETTERS **/
-/** Adds the specified power plant to the gameboard */
+/** Adds the specified power plant to the gameboard (at the right position on the grid)*/
 void addPPlantToBoard(t_board* board, t_PB* pplant)
 {
-	vector_add_entity(board->elec_network,pplant);
-	board->nb_pplants = vector_get_size(board->elec_network);
+	int x,y;
+	// If the building can be built entirely in the grid frame limits
+	if (pplant->coord->x + PBUILDING_WIDTH <= BOARD_WIDTH && pplant->coord->y + PBUILDING_HEIGHT <= BOARD_HEIGHT)
+	{
+		// We first add it to the grid
+		for (y = 0; y < PBUILDING_HEIGHT ; y++)
+		{
+			for (x = 0; x < PBUILDING_WIDTH ; x++)
+			{
+				board->grid[pplant->coord->y + y][pplant->coord->x + x] = (void*) pplant;
+			}
+		}
+		// And then add it to the corresponding collection
+		vector_add_entity(board->elec_network,pplant);
+		board->nb_pplants = vector_get_size(board->elec_network);
+	}
 }
-/** Adds the specified water castle to the gameboard */
+/** Adds the specified water castle to the gameboard (at the right position on the grid) */
 void addWCastleToBoard(t_board* board, t_PB* wcastle)
 {
-	vector_add_entity(board->water_network,wcastle);
-	board->nb_wcastles = vector_get_size(board->water_network);
+	int x,y;
+	// If the building can be built entirely in the grid frame limits
+	if (wcastle->coord->x + PBUILDING_WIDTH <= BOARD_WIDTH && wcastle->coord->y + PBUILDING_HEIGHT <= BOARD_HEIGHT)
+	{
+		// We first add it to the grid
+		for (y = 0; y < PBUILDING_HEIGHT ; y++)
+		{
+			for (x = 0; x < PBUILDING_WIDTH ; x++)
+			{
+				board->grid[wcastle->coord->y + y][wcastle->coord->x + x] = (void*) wcastle;
+			}
+		}
+		// And then add it to the corresponding collection
+		vector_add_entity(board->water_network,wcastle);
+		board->nb_wcastles = vector_get_size(board->water_network);
+	}
 }
-/** Adds the specified habitation to the gameboard */
+/** Adds the specified habitation to the gameboard (at the right position on the grid) */
 void addHabitationToBoard(t_board* board, t_habit* habitation)
 {
-	vector_add_entity(board->habitation_network,habitation);
-	board->nb_habitations = vector_get_size(board->water_network);
+	int x,y;
+	// If the building can be built entirely in the grid frame limits
+	if (habitation->coord->x + HABITATION_WIDTH <= BOARD_WIDTH && habitation->coord->y + HABITATION_HEIGHT <= BOARD_HEIGHT)
+	{
+		// We first add it to the grid
+		for (y = 0; y < HABITATION_HEIGHT ; y++)
+		{
+			for (x = 0; x < HABITATION_WIDTH ; x++)
+			{
+				board->grid[habitation->coord->y + y][habitation->coord->x + x] = (void*) habitation;
+			}
+		}
+		// And then add it to the corresponding collection
+		vector_add_entity(board->habitation_network,habitation);
+		board->nb_habitations = vector_get_size(board->water_network);
+	}	
 }
 
 /** BOARD UI ROUTINES **/
