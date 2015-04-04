@@ -11,6 +11,7 @@
 #include "graph.h"
 #include "publicbuildings.h"
 #include "gridbox.h"
+#include "vector.h"
 #include "utility.h"
 
 /****************************
@@ -27,9 +28,9 @@ typedef struct board
 	int nb_wcastles;	// Number of water castles currently on the game
 	int nb_habitations;	// Number of dwellings (including everything from wasteland to skyscrapers) currently on the game
 	t_graph *graph;		// Structure containing all data related to the network graph
-	t_habit** habitation_network; // Lists all habitations
-	t_PB** water_network;	// Lists all water castles
-	t_PB** elec_network;	// Lists all power plants
+	t_vector* habitation_network; // Lists all habitations
+	t_vector* water_network;	// Lists all water castles
+	t_vector* elec_network;	// Lists all power plants
 	t_box*** grid;	// Matrix that represents the gameboard. Each index points to a box structure
 }t_board;
 
@@ -43,6 +44,7 @@ typedef struct board
 #define NB_PPLANTS_AT_START 	0
 #define NB_WCASTLES_AT_START 	0
 #define NB_HABITATIONS_AT_START 0
+#define MIN_VECTOR_SIZE	2
 
 
 /****************************
@@ -108,6 +110,24 @@ int hasElecNetwork(t_board* board);
 int hasHabitationNetwork(t_board* board);
 
 /** BOARD SETTERS **/
+/**
+ * Adds the specified power plant to the gameboard
+ * @param (t_board*) board  
+ * @param (t_PB*) pplant Power plant instance to be added
+ */
+void addPPlantToBoard(t_board* board, t_PB* pplant);
+/**
+ * Adds the specified water castle to the gameboard
+ * @param (t_board*) board  
+ * @param (t_PB*) wcastle Water castle instance to be added
+ */
+void addWCastleToBoard(t_board* board, t_PB* wcastle);
+/**
+ * Adds the specified hanitation to the gameboard
+ * @param (t_board*) board 
+ * @param (t_habit*) habitation Habitation instance to be added
+ */
+void addHabitationToBoard(t_board* board, t_habit* habitation);
 
 /** BOARD UI ROUTINES **/
 
