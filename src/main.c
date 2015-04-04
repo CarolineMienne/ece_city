@@ -10,6 +10,5 @@ int main(int argc, char const *argv[])
 	boardPrintToConsole(board);
 
 	boardDestroy(board);
-	printf("Board successfully destroyed !\n");
 	return 0;
 }

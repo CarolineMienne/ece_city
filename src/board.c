@@ -62,12 +62,10 @@ t_board* boardConstruct()
 		exit(EXIT_FAILURE);
 	}
 
-	// Since there are no resource provider (water castles/power plants) 
-	// nor habitation buildings at the beginning, we can't allocate anything.
-	// Thus, we set these lists as pointing to NULL.
-	board->water_network = NULL;
-	board->elec_network	 = NULL;
-	board->habitation_network = NULL;
+	// We use the generic vector constructor that returns an empty vector of size MIN_VECTOR_SIZE
+	board->water_network = vector_create(MIN_VECTOR_SIZE);
+	board->elec_network	 = vector_create(MIN_VECTOR_SIZE);
+	board->habitation_network = vector_create(MIN_VECTOR_SIZE);
 
 	return board;
 }
@@ -75,45 +73,29 @@ t_board* boardConstruct()
 /** Board destructor **/
 void boardDestroy(t_board* board)
 {
-	int i;
-
+	void* destructor;
 	// If there is any water castle instance we have to destroy it
 	if (hasWaterNetwork(board))
 	{
-		for (i = 0; i < getWaterCastleNb(board); i++)
-		{
-			if (board->water_network[i] != NULL)
-			{
-				PBDestroy(board->water_network[i]);
-			}
-		}
-		free(board->water_network);
+		// We call the vector destroy with the corresponding specific destructor
+		destructor = (void*) &PBDestroy;
+		vector_destroy(board->water_network,destructor);
 		board->water_network = NULL;
 	}
 	// If there is any power plant instance we have to destroy it
 	if (hasElecNetwork(board))
 	{
-		for (i = 0; i < getPowerPlantNb(board); i++)
-		{
-			if (board->elec_network[i] != NULL)
-			{
-				PBDestroy(board->elec_network[i]);
-			}
-		}
-		free(board->elec_network);
+		// We call the vector destroy with the corresponding specific destructor
+		destructor = (void*) &PBDestroy;
+		vector_destroy(board->elec_network,destructor);
 		board->elec_network = NULL;
 	}
 	// If there is any habitation building instance we have to destroy it	
 	if (hasHabitationNetwork(board))
 	{
-		for (i = 0; i < getHabitationNb(board); i++)
-		{
-			if (board->habitation_network[i] != NULL)
-			{
-				habitationDestroy(board->habitation_network[i]);
-			}
-		}
-		free(board->habitation_network);
+		// We call the vector destroy with the corresponding specific destructor
+		destructor = (void*) &habitationDestroy;
+		vector_destroy(board->habitation_network,destructor);
 		board->habitation_network = NULL;
 	}
 	// We destroy the grid
@@ -124,7 +106,8 @@ void boardDestroy(t_board* board)
 	graphDestroy(board->graph);
 	board->graph = NULL;
 
-	free(board);	
+	free(board);
+	printf("Board successfully destroyed !\n");
 }
 
 /** BOARD GETTERS **/
@@ -162,6 +145,24 @@ int hasHabitationNetwork(t_board* board)
 }
 
 /** BOARD SETTERS **/
+/** Adds the specified power plant to the gameboard */
+void addPPlantToBoard(t_board* board, t_PB* pplant)
+{
+	vector_add_entity(board->elec_network,pplant);
+	board->nb_pplants = vector_get_size(board->elec_network);
+}
+/** Adds the specified water castle to the gameboard */
+void addWCastleToBoard(t_board* board, t_PB* wcastle)
+{
+	vector_add_entity(board->water_network,wcastle);
+	board->nb_wcastles = vector_get_size(board->water_network);
+}
+/** Adds the specified habitation to the gameboard */
+void addHabitationToBoard(t_board* board, t_habit* habitation)
+{
+	vector_add_entity(board->habitation_network,habitation);
+	board->nb_habitations = vector_get_size(board->water_network);
+}
 
 /** BOARD UI ROUTINES **/
 /** Prints the board data in the specified (opened) file */
@@ -170,7 +171,7 @@ void boardPrintToFile(t_board* board, FILE* f)
 	fprintf(f, "Inhabs :\t%d\n", board->nb_inhabs);
 	fprintf(f, "Power plants :\t%d\n", board->nb_pplants);
 	fprintf(f, "Water castles :\t%d\n", board->nb_wcastles);
-        fprintf(f, "Habitations :\t%d\n", board->nb_habitations);
+    fprintf(f, "Habitations :\t%d\n", board->nb_habitations);
 	fprintf(f, "ECE-Flouz :\t%d\n", board->flouz);
 	fprintf(f, "Months (in game) :\t%d\n", board->months);
 	gridPrintToFile(board->grid,f);
